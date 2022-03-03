@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
-from .models import Video
+from .models import Video, Work
 from .forms import VideoForm
 from django.forms.models import formset_factory
 
@@ -11,7 +11,8 @@ def not_found(request):
 @login_required(login_url='not_found')
 def statistic(request):
     videos = Video.objects.all()
-    context = {'videos': videos,}
+    work = Work.objects.all()
+    context = {'videos': videos, 'work': work}
     return render(request, 'statistic/basic.html', context=context)
 
 
@@ -57,3 +58,13 @@ def change(request, pk):
 
     context = {'form': form, 'formset': formset}
     return render(request, 'statistic/change.html', context)
+
+@login_required(login_url='not_found')
+def Play(request):
+
+    if request.method == 'POST':
+        # START THREAD PLAY VIDEOS
+        return redirect('main')
+    
+    return render(request, 'statistic/play.html', {})
+    
